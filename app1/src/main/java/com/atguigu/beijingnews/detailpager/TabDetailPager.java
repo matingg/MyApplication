@@ -17,6 +17,7 @@ import com.atguigu.beijingnews.base.MenuDetailBasePager;
 import com.atguigu.beijingnews.bean.NewsCenterBean;
 import com.atguigu.beijingnews.bean.TabDetailPagerBean;
 import com.atguigu.beijingnews.utils.Constants;
+import com.atguigu.beijingnews.utils.DensityUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
@@ -43,6 +44,7 @@ public class TabDetailPager extends MenuDetailBasePager {
     private String url;
     private TabDetailPagerAdapter adapter;
     ViewPager viewPager;
+    private int  prePoint ;
     /**
      * 列表数据
      */
@@ -67,8 +69,8 @@ public class TabDetailPager extends MenuDetailBasePager {
         viewPager = (ViewPager) headerview.findViewById(R.id.viewpager);
         tvTitle = (TextView) headerview.findViewById(R.id.tv_title);
         llGroupPoint = (LinearLayout) headerview.findViewById(R.id.ll_group_point);
-
         listview.addHeaderView(headerview);
+
         return view;
     }
 
@@ -120,15 +122,59 @@ public class TabDetailPager extends MenuDetailBasePager {
 //        设置顶部ViewPager适配器
         topNews = pagerBean.getData().getTopnews();
         viewPager.setAdapter(new MyPagerAdapter());
+//   设置viewPager的监听 当页面滑动的时候改变标题
+        viewPager.addOnPageChangeListener(new MyOnPageChangeListener());
+//        进来时默认选中
+        tvTitle.setText(topNews.get(0).getTitle());
+        //        添加红点
+        llGroupPoint.removeAllViews();
+        for (int i = 0 ; i < topNews.size();i++){
+            ImageView point = new ImageView(mContext);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2 ,ViewGroup.LayoutParams.WRAP_CONTENT);
+            point.setLayoutParams(params);
+            if (i != 0){
+                params.leftMargin = DensityUtil.dip2px(mContext,8);
+//                设置图片是否高亮
+                point.setEnabled(false);
+            }else{
+                //                设置图片是否高亮
+                point.setEnabled(true);
+            }
+            point.setLayoutParams(params);
+            //设置图片背景选择器
+            point.setBackgroundResource(R.drawable.point_selector);
+//把点添加到线性布局中
+            llGroupPoint.addView(point);
+        }
 
+    }
 
+    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            llGroupPoint.getChildAt(prePoint).setEnabled(false);
+            llGroupPoint.getChildAt(position).setEnabled(true);
+            prePoint =position;
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            tvTitle.setText(topNews.get(position).getTitle());
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
     }
     class MyPagerAdapter extends PagerAdapter {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(mContext);
+//            设置图片可拉伸
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             //加载图片
             Glide.with(mContext).load(Constants.BASE_URL+topNews.get(position).getTopimage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
