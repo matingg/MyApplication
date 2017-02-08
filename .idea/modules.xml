@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" filepath="$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicator_library/ViewPagerIndicator_library.iml" filepath="$PROJECT_DIR$/ViewPagerIndicator_library/ViewPagerIndicator_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicator_sample/ViewPagerIndicator_sample.iml" filepath="$PROJECT_DIR$/ViewPagerIndicator_sample/ViewPagerIndicator_sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app1/app1.iml" filepath="$PROJECT_DIR$/app1/app1.iml" />
+    </modules>
+  </component>
+</project>
